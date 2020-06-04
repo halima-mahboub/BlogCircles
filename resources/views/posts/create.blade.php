@@ -29,16 +29,18 @@
                              name="description" rows="3">{{(isset($post))?$post->description: ''}} </textarea>
                         </div>
                         <div class="form-group">
-                            {{--<label for="Content">Content</label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="Content"
-                                    placeholder="Add a content"
-                                    name="content" rows="3"> </textarea>
-                            --}}
                             <input id="x" type="hidden" name="content"value="{{(isset($post))?$post->content: ''}}">
                             <trix-editor input="x"></trix-editor>
     
-
-
+                        </div>
+                        <div class="form-group">
+                        <label for="selectCategory">Category</label>
+                        <select name="categoryId" id="selectCategory" class="form-control @error('category') is-invalid @enderror">
+                            <option >Add Category</option>
+                            @foreach($categories as $category)
+                                <option  value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
                         </div>
                         @if(isset($post))
                             <div class="form-group">

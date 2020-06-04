@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Category;
+
 use App\Http\Requests\StoreBlogPost;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
@@ -12,6 +14,12 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        //$this->middleware('auth');
+
+        $this->middleware('checkCategory')->only('create');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +28,7 @@ class PostController extends Controller
     public function index()
     {
         $posts= Post::paginate(5);
+        
         return view("posts.index",compact('posts'));
     }
 
@@ -30,7 +39,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view("posts.create");
+        $categories= Category::all();
+        return view("posts.create")->withCategories($categories);
     }
 
     /**
@@ -48,6 +58,7 @@ class PostController extends Controller
                 'title'=>  $request->title,
                 'description'=> $request->description,
                 'content'=> $request->content,
+                'category_id'=> $request->categoryId,
                 'image'=>  $request->image->store('images','public')
             ]
         );

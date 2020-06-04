@@ -1,18 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Category;
+use App\Tag;
 use Illuminate\Http\Request;
-    
- use App\Http\Requests\CategoryRequest;
-class CategoryController extends Controller
+use App\Http\Requests\TagRequest;
+class TagController extends Controller
 {
-    public function __construct()
-    {
-       // $this->middleware('auth');
-
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-       // dd();
-        $categories = Category::all();
-        return view('categories.index',compact('categories'));
+        $tags = Tag::all();
+        return view('tags.index',compact('tags'));
 
     }
 
@@ -33,8 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return  view('categories.create');
-
+        return  view('tags.create');
     }
 
     /**
@@ -43,13 +34,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(TagRequest $request)
     {
-        $validated = $request->validated();
+        $request->validate([
+            'name'=> 'required|unique:tags'
+        ]);
         $input = $request->all();
-        $category=Category::create($input);
-        return redirect(route('categories.index'))->with('success','category created successfully');
-
+        $tag=Tag::create($input);
+        return redirect(route('tags.index'))->with('success','tag created successfully');
     }
 
     /**
@@ -60,7 +52,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-       
+        //
     }
 
     /**
@@ -71,8 +63,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category=Category::findOrfail($id);
-        return  view('categories.create',compact('category'));
+        $tag=Tag::findOrfail($id);
+        return  view('tags.create',compact('tag'));
 
     }
 
@@ -83,15 +75,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(TagRequest $request, $id)
     {
         $request->validate([
-           'name'=> 'required|unique:categories'
-        ]);
-        $newcategory=Category::findOrFail($id);
-        $newcategory->name=$request->name;
-        $newcategory->save();
-        return redirect(route('categories.index'))->with('success','the category has been edited successfully');
+            'name'=> 'required|unique:tags'
+         ]);
+         $newtag=Tag::findOrFail($id);
+         $newtag->name=$request->name;
+         $newtag->save();
+         return redirect(route('tags.index'))->with('success','the tag has been edited successfully');
     }
 
     /**
@@ -102,8 +94,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $deleteditem=Category::findOrFail($id);
+        $deleteditem=Tag::findOrFail($id);
         $deleteditem->delete();
-        return  redirect(route('categories.index'))->with('success','the category has been deleted successfuly');
+        return  redirect(route('tags.index'))->with('success','the tag has been deleted successfuly');
+
     }
 }

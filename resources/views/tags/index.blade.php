@@ -13,12 +13,12 @@
         </div>
     @endif
     <div class="clearfix">
-        <a href="{{route('categories.create')}}" class="btn btn-success float-right  " style="margin-bottom: 10px"> add Category</a>
+        <a href="{{route('tags.create')}}" class="btn btn-success float-right  " style="margin-bottom: 10px"> add Tag</a>
     </div>
     <div class="card card-default">
-        <div class="card-header"> All Categories</div>
+        <div class="card-header"> All Tags</div>
         <div class="card-body">
-        @if($categories->count()>0)
+        @if($tags->count()>0)
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -29,13 +29,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($categories as $category)
+                @foreach($tags as $tag)
                 <tr>
-                    <td>{{$category->id}}</td>
-                    <td>{{$category->name}}</td>
-                    <td><a href="{{route('categories.edit',$category->id)}}" class="btn btn-warning"> Edit </a> </td>
+                    <td>{{$tag->id}}</td>
+                    <td>{{$tag->name}}</td>
+                    <td><a href="{{route('tags.edit',$tag)}}" class="btn btn-warning"> Edit </a> </td>
                     <td>
-                        <form action="{{ route('categories.destroy', $category->id)}}" method="post">
+                        <form action="{{ route('tags.destroy', $tag)}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger" type="submit">Delete</button>
@@ -46,7 +46,7 @@
                 </tbody>
             </table>
        @else
-            <h1>No Categorys Yet.</h1>
+            <h1>No Tags Yet.</h1>
         @endif
         </div>
     </div>

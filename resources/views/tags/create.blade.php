@@ -16,20 +16,19 @@
                 </ul>
             </div>
         @endif
-        <div class=" card-header"> {{(isset($category))?"Update Category":"Add new Category"}} </div>
+        <div class=" card-header"> {{(isset($tag))?"Update Tag":"Add new Tag"}} </div>
         <div class="card-body">
-            <form action="{{isset($category)?route('categories.update',$category):route('categories.store')}}" method="Post">
+            <form action="{{isset($tag)?route('tags.update',$tag):route('tags.store')}}" method="Post">
                 @csrf
-                @if(isset($category))
-                    @method('PUT')
+                @if(isset($tag))
+                    @method('put')
                 @endif
                 <div class="form-group">
-                    <label for="category"> category name </label>
-                    <input type="text" class="form-group form-control"  
-                    @if(isset($category)) value="{{$category->name}}"@endif placeholder="add your category" name="name">
+                    <label for="tag"> tag name </label>
+                    <input type="text" class="form-group form-control"   @if(isset($tag)) value="{{$tag->name}}"@endif placeholder="add your tag " name="name">
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="form-control btn btn-success" value='{{(isset($category))?"Update":"Add"}}'>
+                    <input type="submit" class="form-control btn btn-success" value='{{(isset($tag))?"Update":"Add"}}'>
                 </div>
             </form>
         </div>

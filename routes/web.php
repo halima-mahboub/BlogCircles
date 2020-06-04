@@ -16,10 +16,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/categories','CategoryController');
-Route::resource('/posts','PostController');
-Route::get('/trashed-posts', 'PostController@trashed')->name('trashed.index');
-Route::get('/trashed-posts/{id}','PostController@restore')
-                                ->name('trashed.restore');
+Route::group(['middleware'=>"auth"],function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('/categories','CategoryController');
+    Route::resource('/posts','PostController');
+    Route::resource('/tags','TagController');
+    Route::get('/trashed-posts', 'PostController@trashed')->name('trashed.index');
+    Route::get('/trashed-posts/{id}','PostController@restore')
+                                    ->name('trashed.restore');
+    
+});
