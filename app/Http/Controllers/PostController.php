@@ -128,7 +128,7 @@ class PostController extends Controller
     }
     public function trashed()
     {
-        $trashed= Post::onlyTrashed()->get();
+        $trashed= Post::onlyTrashed()->paginate(5);
         return view('posts.index')->withPosts($trashed);               
     }
     public function restore($id)
