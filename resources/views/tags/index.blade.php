@@ -32,7 +32,7 @@
                 @foreach($tags as $tag)
                 <tr>
                     <td>{{$tag->id}}</td>
-                    <td>{{$tag->name}}</td>
+                    <td>{{$tag->name}} <span class="ml-2 badge badge-primary">{{$tag->posts->count()}}</span></td>
                     <td><a href="{{route('tags.edit',$tag)}}" class="btn btn-warning"> Edit </a> </td>
                     <td>
                         <form action="{{ route('tags.destroy', $tag)}}" method="post">

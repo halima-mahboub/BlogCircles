@@ -89,7 +89,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view("posts.create")->withPost($post);
+        $categories=Category::all();
+        $tags=Tag::all();
+        return view("posts.create",compact("categories","tags"))->withPost($post);
     }
 
     /**
@@ -109,7 +111,10 @@ class PostController extends Controller
             $image=$request->image->store('images','public');
             Storage::disk('public')->delete($post->image);
             $data['image']=$image;
-        }        
+        }
+        if($request->tagId)
+        $post->tags()->sync($request->tagId);
+
         $post->update($data);
         $request->session()->flash("success","Post updated successefly");
         return redirect(route('posts.index'));

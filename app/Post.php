@@ -21,4 +21,12 @@ class Post extends Model
     public function tags(){
         return $this->belongsToMany(Tag::class)->withTimestamps();
      }
+     public function hasTag($tagId){
+       // return $this->tags()->whereTagId($tagId)->exists();
+        return in_array($tagId,$this->tags->pluck('id')->toArray());
+     }
+     public function hasCategory($categoryId){
+        return $this->whereCategoryId($categoryId)->exists();
+     }
+     
 }

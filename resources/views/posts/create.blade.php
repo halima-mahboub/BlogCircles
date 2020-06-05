@@ -38,15 +38,22 @@
                         <select name="categoryId" id="selectCategory" class="form-control @error('category') is-invalid @enderror">
                             <option >Add Category</option>
                             @foreach($categories as $category)
-                                <option  value="{{$category->id}}">{{$category->name}}</option>
+                                <option  value="{{$category->id}}"
+                                @if(isset($post)&& $post->hasCategory($category->id))
+                                selected
+                                @endif>{{$category->name}}</option>
                             @endforeach
                         </select>
                     @if($tags->count()>0)
                         <div class="form-group">
                         <label for="selectTag">Tags</label>
-                        <select name="tagId[]" id="selectTag" multiple class="form-control @error('tag') is-invalid @enderror">
+                        <select name="tagId[]" id="selectTag" multiple class="form-control tagSelect @error('tag') is-invalid @enderror">
                            @foreach($tags as $tag)
-                                <option  value="{{$tag->id}}">{{$tag->name}}</option>
+                                <option  value="{{$tag->id}}"
+                                @if(isset($post)&& $post->hasTag($tag->id))
+                                selected
+                                @endif>
+                                {{$tag->name}}</option>
                             @endforeach
                         </select>
                         </div>
@@ -76,7 +83,16 @@
 @endsection
 @section('scripts')
  <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.3/trix.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<script >
+    $('.tagSelect').select2({
+  placeholder: 'Select an option'
+});
+</script>
 @endsection
 @section('stylesheet')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.3/trix.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
 @endsection
