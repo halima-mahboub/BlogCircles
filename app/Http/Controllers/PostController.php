@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Tag;
 use App\Category;
 
 use App\Http\Requests\StoreBlogPost;
@@ -40,7 +41,8 @@ class PostController extends Controller
     public function create()
     {
         $categories= Category::all();
-        return view("posts.create")->withCategories($categories);
+        $tags= Tag::all();
+        return view("posts.create", compact("categories","tags"));
     }
 
     /**
@@ -53,7 +55,7 @@ class PostController extends Controller
     {
         $validated = $request->validated();
        
-        Post::create(
+        $post=Post::create(
             [
                 'title'=>  $request->title,
                 'description'=> $request->description,
@@ -61,8 +63,8 @@ class PostController extends Controller
                 'category_id'=> $request->categoryId,
                 'image'=>  $request->image->store('images','public')
             ]
-        );
-       ;
+        );if(isset($request->tagId) && count($request->tagId)!=0)
+        $post->tags()->attach($request->tagId);
        $request->session()->flash("success","Post created successefly");
      return redirect(route('posts.index'));
         

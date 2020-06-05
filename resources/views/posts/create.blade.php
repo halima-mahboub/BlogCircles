@@ -41,7 +41,16 @@
                                 <option  value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </select>
+                    @if($tags->count()>0)
+                        <div class="form-group">
+                        <label for="selectTag">Tags</label>
+                        <select name="tagId[]" id="selectTag" multiple class="form-control @error('tag') is-invalid @enderror">
+                           @foreach($tags as $tag)
+                                <option  value="{{$tag->id}}">{{$tag->name}}</option>
+                            @endforeach
+                        </select>
                         </div>
+                    @endif
                         @if(isset($post))
                             <div class="form-group">
                             <img src="{{asset('storage/'.$post->image)}}" alt="" width='100%' >
