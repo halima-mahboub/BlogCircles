@@ -2,6 +2,8 @@
 
 namespace App;
 use App\Category;
+use App\Tag;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,6 +15,7 @@ class Post extends Model
         'title', 'content', 'description','image','category_id'
     ];
     public function user(){
+       return $this->belongsTo(User::class);
 
     }
     public function category(){
@@ -28,5 +31,6 @@ class Post extends Model
      public function hasCategory($categoryId){
         return $this->whereCategoryId($categoryId)->exists();
      }
+
      
 }
